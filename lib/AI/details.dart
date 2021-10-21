@@ -1,7 +1,7 @@
 import 'dart:developer';
-
 import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
+import 'cheque.dart';
 
 class Details extends StatefulWidget {
   final String text;
@@ -17,7 +17,7 @@ class _DetailsState extends State<Details> {
     return Scaffold(
       key: _key,
       appBar: AppBar(
-        title: Text('Details of your scanne'),
+        title: Text('Détails'),
         actions: [
           IconButton(
             icon: Icon(Icons.copy),
@@ -48,56 +48,36 @@ class _DetailsState extends State<Details> {
   }
 
   Future<dynamic> _regex() async {
-    RegExp _exp1 = new RegExp(
-        r"((?<=EXPÉRIENCE PROFESSIONNELLE)|(?<=EXPERIENCES PROFESSIONNELLES))(\n.+)*?((?=\s+COMPÉTENCES)|(?=\s+FORMATION)|(?=\s+LOGICIELS)|(?=\s+QUALIFICATIONS ET COMPETENCES)|(?=\s+FORMATION ET DIPLOMES)|(?=\s+FORMATION ET DIPLOMES))",
-        caseSensitive: false);
-    RegExp _form1 = new RegExp(
-        r"((?<=FORMATION)|(?<=FORMATION ET DIPLOMES))(\n.+)*?((?=\s+COMPÉTENCES)|(?=\s+EXPÉRIENCE PROFESSIONNELLE)|(?=\s+LOGICIELS)|(?=\s+LANGUES)|(?=\s+QUALIFICATIONS ET COMPETENCES)|(?=\s+EXPERIENCES PROFESSIONNELLES)|(?=\s+CENTRES D’INTERET ET QUALITES PERSONNELLES)|.)",
-        caseSensitive: false);
-    RegExp _comp1 = new RegExp(
-        r"((?<=COMPÉTENCES)|(?<=QUALIFICATIONS ET COMPETENCES))(\n.+)*?((?=\s+FORMATION)|(?=\s+EXPÉRIENCE PROFESSIONNELLE)|(?=\s+LOGICIELS)|(?=\s+LANGUES)|(?=\s+FORMATION ET DIPLOMES)|(?=\s+EXPERIENCES PROFESSIONNELLES)|.)",
-        caseSensitive: false);
-    RegExp _logi1 = new RegExp(
-        r"(?<=LOGICIELS)(\n.+)*?((?=\s+COMPÉTENCES)|(?=\s+EXPÉRIENCE PROFESSIONNELLE)|(?=\s+FORMATION)|(?=\s+LANGUES)|(?=\s+QUALIFICATIONS ET COMPETENCES)|(?=\s+FORMATION ET DIPLOMES))",
-        caseSensitive: false);
-    RegExp _email1 = new RegExp(
-        r"\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}\b",
-        caseSensitive: false);
-    RegExp _nom1 = new RegExp(
-        r"((?<=Nom)|(?<=NOM)).*[A-Z][a-z].*(-[A-Z][a-z]?)?",
-        caseSensitive: false);
-    RegExp _prenom1 = new RegExp(
-        r"((?<=Prenom)|(?<=Prénom)).*[A-Z][a-z].*(-[A-Z][a-z]?)?",
-        caseSensitive: false);
-    RegExp _age1 = new RegExp(r"(?<=Age).*( [1-9][1-9])", caseSensitive: false);
-    RegExp _post1 = new RegExp(
-        r"((?<=POSTE  )| (?<=POSTE OCCUPÉ/ )).*( [A-z]|[A-Z]).*",
-        caseSensitive: false);
-    RegExp _interet1 = new RegExp(
-        r"(?<=CENTRES D’INTERET ET QUALITES PERSONNELLES)(\n.+)*?((?=\s+COMPÉTENCES)|(?=\s+FORMATION)|(?=\s+LOGICIELS)|(?=\s+QUALIFICATIONS ET COMPETENCES)|(?=\s+FORMATION ET DIPLOMES)|(?=\s+FORMATION ET DIPLOMES)|.)",
-        caseSensitive: false);
-    RegExp _tel1 = new RegExp(r"(\d{2}\s\d{2}\s\d{2}\s\d{2}\s\d{2}\s)",
-        caseSensitive: false);
-    RegExp _adress1 = new RegExp(
-        r"((?<=Adresse)|(?<=ADRESSE)).*( [A-z]|[A-Z]).*",
-        caseSensitive: false);
+    RegExp _bankname1 = new RegExp(r"(Attijari bank)|(BANQUE ZITOUNA)");
+    String _bankname = _bankname1.stringMatch(widget.text).toString();
 
-    String _exp = _exp1.stringMatch(widget.text).toString();
-    String _form = _form1.stringMatch(widget.text).toString();
-    String _comp = _comp1.stringMatch(widget.text).toString();
-    String _logi = _logi1.stringMatch(widget.text).toString();
-    String _email = _email1.stringMatch(widget.text).toString();
-    String _tel = _tel1.stringMatch(widget.text).toString();
-    String _nom = _nom1.stringMatch(widget.text).toString();
-    String _prenom = _prenom1.stringMatch(widget.text).toString();
-    String _post = _post1.stringMatch(widget.text).toString();
-    String _age = _age1.stringMatch(widget.text).toString();
-    String _interet = _interet1.stringMatch(widget.text).toString();
-    String _adress = _adress1.stringMatch(widget.text).toString();
-    //print("split1 : " + _tel1.stringMatch(_text).toString());
+    RegExp _prix1 = new RegExp(
+        r"((B.P \d.* DT)|(BPD \d.* DT)|((?<=B.P )|(?<=BPD ))\d.* DT)");
+    String _prix = _prix1.stringMatch(widget.text).toString();
+
+    RegExp _date1 = new RegExp(r"(\d{2}/\d{2}/\d{4})");
+    String _date = _date1.stringMatch(widget.text).toString();
+
+    RegExp _pays1 = new RegExp(r"(Tunis)|(tunis)");
+    String _pays = _pays1.stringMatch(widget.text).toString();
+
+    RegExp _prixcarct1 =
+        new RegExp(r"(Sauf au profit d'une banque ou dun onrganisme assimilé)");
+    String _prixcarct = _prixcarct1.stringMatch(widget.text).toString();
+
+    RegExp _tit1 = new RegExp(r"\d{20}");
+    String _tit = _tit1.stringMatch(widget.text).toString();
+
+    RegExp _ordre1 = new RegExp(
+        r"((?<=Alordre)|(?<=A l'ordre de)|(?<=AlTordre de)|(?<=Al'ordre de)).([^\s]+)");
+    String _ordre = _ordre1.stringMatch(widget.text).toString();
+    print("###################################");
+    print((widget.text).toString());
+    print("###################################");
+
     Navigator.of(context).pop();
-    // Navigator.of(context).push(MaterialPageRoute(
-    //     builder: (context) => CvPage(_exp, _form, _comp, _logi, _email, _tel,
-    //         _nom, _prenom, _age, _post, _interet, _adress)));
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => ChequePage(
+            _bankname, _prix, _date, _pays, _prixcarct, _tit, _ordre)));
   }
 }
