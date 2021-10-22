@@ -1,0 +1,42 @@
+name: verfication_checks
+description: A new Flutter project.
+
+publish_to: 'none' 
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  tflite: ^1.0.5
+  image_picker: ^0.6.7+22
+  cupertino_icons: ^1.0.2 
+  firebase_ml_vision: ^0.9.10
+  clipboard: ^0.1.2+8
+  firebase_core:
+  cloud_firestore:
+  http:
+  json_annotation: 
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_launcher_icons: ^0.8.0
+
+flutter_icons:
+  image_path: "assets/images/bank_check.png"
+  android: true
+  ios: true
+flutter:
+
+  uses-material-design: true
+
+  assets:
+    - assets/model.tflite
+    - assets/model_unquant.tflite
+    - assets/labels.txt
+    - assets/images/
+
